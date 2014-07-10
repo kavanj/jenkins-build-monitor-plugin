@@ -206,11 +206,30 @@ public class JobViewTest {
 
     @Test
     public void should_describe_the_job_as_failing_if_the_last_build_failed() {
-        for (Result result : asFollows(FAILURE, ABORTED, NOT_BUILT, UNSTABLE)) {
-            view = JobView.of(a(job().whereTheLast(build().finishedWith(result))));
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(ABORTED))));
 
-            assertThat(view.status(), containsString("failing"));
-        }
+        assertThat(view.status(), containsString("aborted"));
+    }
+
+    @Test
+    public void should_describe_the_job_as_aborted_if_the_last_build_was_aborted() {
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(ABORTED))));
+
+        assertThat(view.status(), containsString("aborted"));
+    }
+
+    @Test
+    public void should_describe_the_job_as_not_built_if_the_last_build_was_not_built() {
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(NOT_BUILT))));
+
+        assertThat(view.status(), containsString("not_built"));
+    }
+
+    @Test
+    public void should_describe_the_job_as_unstable_if_the_last_build_was_unstable() {
+        view = JobView.of(a(job().whereTheLast(build().finishedWith(UNSTABLE))));
+
+        assertThat(view.status(), containsString("unstable"));
     }
 
     @Test
@@ -434,7 +453,7 @@ public class JobViewTest {
                 augmentedWith(Analysis.class));
 
         assertThat(view.hasKnownFailures(), is(true));
-        assertThat(view.knownFailures(), contains(rogueAi));
+        assertThat(view.knownFailures(), hasItem(rogueAi));
     }
 
     @Test
@@ -448,7 +467,7 @@ public class JobViewTest {
         assertThat(view.progress(),               is(0));
         assertThat(view.shouldIndicateCulprits(), is(false));
         assertThat(view.culprits(),               hasSize(0));
-        assertThat(view.status(),                 is("failing"));
+        assertThat(view.status(),                 is("not_built"));
         assertThat(view.isClaimed(),              is(false));
         assertThat(view.hasKnownFailures(),       is(false));
     }

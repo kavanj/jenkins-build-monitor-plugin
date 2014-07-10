@@ -1,18 +1,17 @@
 package com.smartcodeltd.jenkinsci.plugins.buildmonitor.viewmodel;
 
-import com.smartcodeltd.jenkinsci.plugins.buildmonitor.BuildMonitorView;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.facade.RelativeLocation;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.viewmodel.plugins.BuildAugmentor;
-import hudson.Functions;
 import hudson.model.*;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.kohsuke.stapler.Ancestor;
-import org.kohsuke.stapler.Stapler;
-import org.kohsuke.stapler.StaplerRequest;
 
 import java.util.*;
 
-import static hudson.model.Result.*;
+import static hudson.model.Result.ABORTED;
+import static hudson.model.Result.FAILURE;
+import static hudson.model.Result.NOT_BUILT;
+import static hudson.model.Result.SUCCESS;
+import static hudson.model.Result.UNSTABLE;
 
 /**
  * @author Jan Molak
@@ -54,24 +53,16 @@ public class JobView {
         // todo: consider introducing a BuildResultJudge to keep this logic in one place
         String status = "unknown";
 
-        if(lastCompletedBuild().result() == SUCCESS) {
-        	status = "successful";
-        } else {
-        	if(lastCompletedBuild().result() == FAILURE) {
-        		status = "failing";
-        	} else {
-        		if(lastCompletedBuild().result() == NOT_BUILT) {
-        			status = "not_build";
-        		} else {
-        			if(lastCompletedBuild().result() == ABORTED) {
-        				status = "aborted";
-        			} else {
-        				if(lastCompletedBuild().result() == UNSTABLE) {
-        					status = "unstable";
-        				}
-        			}
-        		}
-        	}
+        if (lastCompletedBuild().result() == SUCCESS) {
+            status = "successful";
+        } else if (lastCompletedBuild().result() == FAILURE) {
+            status = "failing";
+        } else if (lastCompletedBuild().result() == NOT_BUILT) {
+            status = "not_built";
+        } else if (lastCompletedBuild().result() == ABORTED) {
+            status = "aborted";
+        } else if (lastCompletedBuild().result() == UNSTABLE) {
+            status = "unstable";
         }
         
         if (lastBuild().isRunning()) {
@@ -131,7 +122,7 @@ public class JobView {
 
         BuildViewModel build = lastBuild();
         // todo: consider introducing a BuildResultJudge to keep this logic in one place
-        while (! SUCCESS.equals(build.result())) {
+        while (build.result() != SUCCESS) {
             culprits.addAll(build.culprits());
 
             if (! build.hasPreviousBuild()) {
@@ -139,7 +130,7 @@ public class JobView {
             }
 
             build = build.previousBuild();
-        };
+        }
 
         return culprits;
     }

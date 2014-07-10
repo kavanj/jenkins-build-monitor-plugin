@@ -389,10 +389,10 @@ h2 {
 
 .build-monitor ul#job-views>li {
     position:relative;
-    /*border-radius:10px;*/
+    border-radius:10px;
     overflow: hidden;
-    /*-webkit-box-shadow: 2px 2px 1px rgba(0,0,0,0.5);
-    box-shadow: 2px 2px 1px rgba(0,0,0,0.5);*/
+    -webkit-box-shadow: 2px 2px 1px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 1px rgba(0,0,0,0.5);
 }
 
 .build-monitor ul#job-views .progress {
