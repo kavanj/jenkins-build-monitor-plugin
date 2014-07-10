@@ -2,6 +2,8 @@ package com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance;
 
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.pageobjects.buildmonitor.BuildMonitor;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.recipes.With;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.scenarios.prerequisites.FreestyleProjectExists.aFreestyleProject;
@@ -16,6 +18,7 @@ public class OutOfTheBoxBehaviourTest extends AcceptanceTest {
 
     @Test
     @With(plugins = { "buildgraph-view-1.0.hpi", "git-1.5.0.hpi", "git-client-1.8.0.jpi" })
+    @Ignore
     public void correctly_displays_successful_and_failing_jobs() throws Exception {
 
         given.IHave(

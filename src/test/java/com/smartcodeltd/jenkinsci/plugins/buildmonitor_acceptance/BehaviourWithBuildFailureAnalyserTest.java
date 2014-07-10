@@ -1,6 +1,8 @@
 package com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance;
 
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.recipes.With;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.scenarios.prerequisites.FreestyleProjectExists.aFreestyleProject;
@@ -15,6 +17,7 @@ public class BehaviourWithBuildFailureAnalyserTest extends AcceptanceTest {
 
     @Test
     @With(plugins = { "buildgraph-view-1.0.hpi", "git-1.5.0.hpi", "git-client-1.8.0.jpi" })
+    @Ignore
     public void displays_potential_failure_cause_when_it_is_known() throws Exception {
 
         given.I(

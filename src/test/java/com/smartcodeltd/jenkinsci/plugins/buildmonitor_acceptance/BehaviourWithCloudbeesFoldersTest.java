@@ -2,6 +2,8 @@ package com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance;
 
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.pageobjects.buildmonitor.BuildMonitor;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.recipes.With;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.smartcodeltd.jenkinsci.plugins.buildmonitor_acceptance.scenarios.prerequisites.FolderExists.aFolder;
@@ -21,6 +23,7 @@ public class BehaviourWithCloudbeesFoldersTest extends AcceptanceTest {
             "cloudbees-folder-4.2.3.hpi",
             "buildgraph-view-1.0.hpi", "git-1.5.0.hpi", "git-client-1.8.0.jpi"
     })
+    @Ignore
     public void displays_jobs_nested_in_folders() throws Exception {
 
         given.IHave(
